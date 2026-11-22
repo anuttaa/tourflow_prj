@@ -187,6 +187,26 @@ button, input, select { font: inherit; }
 @media (max-width: 360px) { .hero-copy h1 { font-size: 54px; }.tour-row { grid-template-columns: 14px 54px 1fr auto; }.tour-row img { width: 54px; height: 49px; }.tour-arrow { display: none; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 
+/* ── Общие элементы интерфейса кабинета (каталог, очередь, отчёты, админ) ── */
+.filters { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px 20px; margin-bottom: 24px; }
+.filters .field { min-width: 180px; }
+.hero h1 { margin-bottom: .4rem; }
+.alert { margin: 14px 0; padding: 12px 15px; border-left: 2px solid var(--accent); color: var(--ink); background: #e4eef0; font-size: 10px; line-height: 1.7; }
+.alert.ok { border-color: #6f9279; background: #e9f1ea; }
+.alert.warn { border-color: var(--highlight); background: #f5f0e5; }
+.alert.error { border-color: #a5615a; background: #f6ebe9; }
+.alert ul { margin: .35rem 0 0; padding-left: 1.1rem; }
+.badge { display: inline-flex; align-items: center; padding: 4px 9px; border: 1px solid rgba(38,59,73,.22); color: var(--accent); background: rgba(184,203,208,.24); font-size: 8px; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
+.badge.PUBLISHED, .badge.CONFIRMED, .badge.PAID, .badge.COMPLETED, .badge.ACTIVE { border-color: #8aab93; color: #4c6f59; background: #e9f1ea; }
+.badge.DRAFT, .badge.VALIDATED, .badge.PENDING { border-color: #c2a874; color: #6e5c36; background: #f5f0e5; }
+.badge.REJECTED, .badge.CANCELLED, .badge.EXPIRED, .badge.BLOCKED { border-color: #c19690; color: #7c4a42; background: #f6ebe9; }
+.badge.ARCHIVED { color: var(--muted); background: transparent; }
+.field-error { color: #a5615a; font-size: 8px; }
+.pager { display: flex; align-items: center; gap: 18px; margin-top: 24px; }
+.modal-back { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 22px; background: rgba(29,47,58,.42); }
+.modal { width: min(560px,100%); max-height: 86vh; overflow: auto; padding: 22px 24px 26px; background: var(--paper); border: 1px solid rgba(38,59,73,.17); box-shadow: 0 26px 64px rgba(20,40,52,.3); }
+.modal h2 { margin: 0; font: 500 31px/1 'Cormorant Garamond',serif; }
+
 .tour-content-wrap { width: min(1280px,100%); margin-right: auto; margin-left: auto; padding-right: clamp(22px,7vw,108px); padding-left: clamp(22px,7vw,108px); }
 .breadcrumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding-top: 19px; padding-bottom: 19px; color: #718087; font-size: 8px; letter-spacing: .08em; }
 .breadcrumbs a:hover { color: var(--accent); }

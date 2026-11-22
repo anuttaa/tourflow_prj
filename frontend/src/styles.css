@@ -82,74 +82,6 @@ a:hover {
   flex-direction: column;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ВЕРХНЯЯ ПАНЕЛЬ (TOPBAR)
-═══════════════════════════════════════════════════════════════ */
-.topbar {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 0.85rem 2rem;
-  background: #090e1a;
-  color: #f8fafc;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(12px);
-}
-
-.brand {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #fff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  letter-spacing: -0.03em;
-}
-.brand i {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
-  display: inline-block;
-  box-shadow: 0 0 12px rgba(20, 184, 166, 0.4);
-}
-
-.topbar nav {
-  display: flex;
-  gap: 0.35rem;
-  flex: 1;
-  flex-wrap: wrap;
-}
-.topbar nav a {
-  color: #94a3b8;
-  text-decoration: none;
-  padding: 0.45rem 0.85rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.92rem;
-  font-weight: 550;
-  transition: all 0.15s ease;
-}
-.topbar nav a:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-}
-.topbar nav a.active {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.12);
-  font-weight: 650;
-}
-
-.userbox {
-  display: flex;
-  gap: 0.85rem;
-  align-items: center;
-  font-size: 0.9rem;
-}
-
 main {
   flex: 1;
   width: 100%;
@@ -1337,7 +1269,6 @@ tr:hover td {
 }
 
 @media (max-width: 600px) {
-  .topbar { padding: 0.75rem 1rem; }
   main { padding: 1.25rem 1rem; }
   .showcase-hero-overlay { padding: 2rem 1.25rem; }
   .showcase-search-box { flex-direction: column; }
