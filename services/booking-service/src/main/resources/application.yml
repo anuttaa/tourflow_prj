@@ -1,0 +1,37 @@
+server:
+  port: 8084
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application.name: booking-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/booking_db}
+    username: ${DB_USER:booking}
+    password: ${DB_PASSWORD:booking_pw}
+  jpa:
+    open-in-view: false
+    hibernate.ddl-auto: validate
+  kafka.bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+  security.oauth2.resourceserver.jwt.jwk-set-uri: ${JWKS_URI:http://localhost:8081/.well-known/jwks.json}
+management.endpoints.web.exposure.include: health,info
+resilience4j.circuitbreaker.instances.catalog:
+  slidingWindowSize: 10
+  minimumNumberOfCalls: 5
+  failureRateThreshold: 50
+  waitDurationInOpenState: 10s
+  ignoreExceptions:
+    - org.springframework.web.client.HttpClientErrorException
+resilience4j.circuitbreaker.instances.planning:
+  slidingWindowSize: 10
+  minimumNumberOfCalls: 5
+  failureRateThreshold: 50
+  waitDurationInOpenState: 10s
+  ignoreExceptions:
+    - org.springframework.web.client.HttpClientErrorException
+app:
+  internal-token: ${INTERNAL_TOKEN:dev-internal-token}
+  public-paths: /nonexistent
+  catalog-url: ${CATALOG_URL:http://localhost:8082}
+  planning-url: ${PLANNING_URL:http://localhost:8083}
+  hold-ttl-minutes: ${HOLD_TTL_MINUTES:30}
+  pricing.margin: ${PRICING_MARGIN:0.15}

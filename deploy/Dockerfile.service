@@ -1,0 +1,16 @@
+# Сборка любого сервиса: docker build -f deploy/Dockerfile.service --build-arg MODULE=catalog-service .
+FROM maven:3.9-eclipse-temurin-21 AS build
+ARG MODULE
+WORKDIR /src
+COPY pom.xml .
+COPY services services
+RUN mvn -q -B -pl services/${MODULE} -am -DskipTests package
+
+FROM eclipse-temurin:21-jre
+ARG MODULE
+WORKDIR /app
+RUN useradd -r -u 1001 app && mkdir -p /data && chown app /data
+COPY --from=build /src/services/${MODULE}/target/*.jar app.jar
+USER app
+ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75 -Dfile.encoding=UTF-8"
+ENTRYPOINT ["java", "-jar", "app.jar"]

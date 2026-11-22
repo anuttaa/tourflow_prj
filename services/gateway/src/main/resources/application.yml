@@ -1,0 +1,16 @@
+server:
+  port: 8080
+spring:
+  application.name: api-gateway
+  security.oauth2.resourceserver.jwt.jwk-set-uri: ${JWKS_URI:http://localhost:8081/.well-known/jwks.json}
+management.endpoints.web.exposure.include: health,info
+app:
+  upstream:
+    identity: ${IDENTITY_URL:http://localhost:8081}
+    catalog: ${CATALOG_URL:http://localhost:8082}
+    planning: ${PLANNING_URL:http://localhost:8083}
+    booking: ${BOOKING_URL:http://localhost:8084}
+  cors-origins: ${CORS_ORIGINS:https://localhost,http://localhost:5173}
+  rate-limit:
+    per-10s: ${RATE_LIMIT_10S:150}
+    auth-per-minute: ${RATE_LIMIT_AUTH_MIN:30}

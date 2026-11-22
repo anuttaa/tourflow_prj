@@ -1,0 +1,27 @@
+server:
+  port: 8085
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application.name: notification-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/notification_db}
+    username: ${DB_USER:notification}
+    password: ${DB_PASSWORD:notification_pw}
+  jpa:
+    open-in-view: false
+    hibernate.ddl-auto: validate
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+    consumer:
+      group-id: notification
+      auto-offset-reset: earliest
+    listener.missing-topics-fatal: false
+  mail:
+    host: ${SMTP_HOST:localhost}
+    port: ${SMTP_PORT:1025}
+    username: ${SMTP_USER:}
+    password: ${SMTP_PASSWORD:}
+management.endpoints.web.exposure.include: health,info
+app:
+  mail-from: ${MAIL_FROM:no-reply@tourflow.local}

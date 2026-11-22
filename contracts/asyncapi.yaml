@@ -1,0 +1,47 @@
+asyncapi: 2.6.0
+info:
+  title: TourFlow events
+  version: 1.0.0
+  description: >
+    События Kafka (ТЗ 10.3). Публикуются через transactional outbox, потребители идемпотентны по eventId.
+    REST-контракты каждого сервиса публикуются springdoc: GET /v3/api-docs, Swagger UI /swagger-ui.html (dev-профиль compose).
+defaultContentType: application/json
+channels:
+  user.registered:
+    subscribe: { summary: "identity → notification: письмо подтверждения", message: { $ref: '#/components/messages/UserRegistered' } }
+  user.blocked:
+    subscribe: { summary: "identity → notification", message: { $ref: '#/components/messages/UserBlocked' } }
+  offer.updated:
+    subscribe: { summary: "catalog → planning: опция изменена, сегменты помечаются устаревшими", message: { $ref: '#/components/messages/OfferChanged' } }
+  availability.changed:
+    subscribe: { summary: "catalog → planning: изменены квоты", message: { $ref: '#/components/messages/OfferChanged' } }
+  tour.published:
+    subscribe: { summary: "planning → notification", message: { $ref: '#/components/messages/TourEvent' } }
+  tour.validation.failed:
+    subscribe: { summary: "planning → notification", message: { $ref: '#/components/messages/TourEvent' } }
+  alternative.applied:
+    subscribe: { summary: "planning → analytics [ДП]", message: { $ref: '#/components/messages/AlternativeApplied' } }
+  booking.created:
+    subscribe: { summary: "booking → notification", message: { $ref: '#/components/messages/BookingEvent' } }
+  booking.status.changed:
+    subscribe: { summary: "booking → notification", message: { $ref: '#/components/messages/BookingEvent' } }
+  booking.cancelled:
+    subscribe: { summary: "booking → notification", message: { $ref: '#/components/messages/BookingEvent' } }
+components:
+  schemas:
+    Envelope:
+      type: object
+      required: [eventId, eventType, occurredAt, payload]
+      properties:
+        eventId: { type: string, format: uuid }
+        eventType: { type: string }
+        occurredAt: { type: string, format: date-time }
+        correlationId: { type: string }
+        payload: { type: object }
+  messages:
+    UserRegistered: { payload: { allOf: [ { $ref: '#/components/schemas/Envelope' }, { type: object, properties: { payload: { type: object, properties: { userId: { type: string }, email: { type: string }, firstName: { type: string }, confirmUrl: { type: string } } } } } ] } }
+    UserBlocked: { payload: { allOf: [ { $ref: '#/components/schemas/Envelope' }, { type: object, properties: { payload: { type: object, properties: { userId: { type: string }, email: { type: string } } } } } ] } }
+    OfferChanged: { payload: { allOf: [ { $ref: '#/components/schemas/Envelope' }, { type: object, properties: { payload: { type: object, properties: { offerId: { type: integer }, change: { type: string }, from: { type: string }, to: { type: string } } } } } ] } }
+    TourEvent: { payload: { allOf: [ { $ref: '#/components/schemas/Envelope' }, { type: object, properties: { payload: { type: object, properties: { tourId: { type: integer }, title: { type: string }, managerEmail: { type: string }, versionNo: { type: integer }, totalPrice: { type: number }, errors: { type: integer } } } } } ] } }
+    AlternativeApplied: { payload: { allOf: [ { $ref: '#/components/schemas/Envelope' }, { type: object, properties: { payload: { type: object, properties: { tourId: { type: integer }, segmentId: { type: integer }, oldOfferRef: { type: integer }, newOfferRef: { type: integer }, type: { type: string }, profile: { type: string } } } } } ] } }
+    BookingEvent: { payload: { allOf: [ { $ref: '#/components/schemas/Envelope' }, { type: object, properties: { payload: { type: object, properties: { bookingId: { type: integer }, ref: { type: string }, userId: { type: string }, userEmail: { type: string }, tourTitle: { type: string }, pax: { type: integer }, totalPrice: { type: number }, status: { type: string }, fromStatus: { type: string }, reason: { type: string }, holdExpiresAt: { type: string } } } } } ] } }
